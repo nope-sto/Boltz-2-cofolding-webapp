@@ -44,7 +44,7 @@ project/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/boltz-webapp.git
+git clone https://github.com/nope-sto/Boltz-2-cofolding-webapp.git
 cd boltz-webapp
 ```
 
