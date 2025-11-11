@@ -1,6 +1,7 @@
 # 🧬 Boltz (v2.2.0) Webapp – Flask Interface for Protein, DNA, RNA, and SMILES Prediction
 
 A web-based Flask application for submitting biomolecular sequences (proteins, DNA, RNA, or SMILES), validating inputs, generating FASTA files, and running **Boltz** predictions with real-time status tracking and downloadable results.
+
 <img width="1053" height="1006" alt="image" src="https://github.com/user-attachments/assets/4b8f5906-b728-4b5f-8418-97d5117a2888" />
 ---
 
