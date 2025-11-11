@@ -264,23 +264,19 @@ Feel free to modify and adapt it for your own workflow.
 
 ## 🧠 Citation
 
-    <p class="mb-1">
       If you use complexes generated with this tool for publications, posters, or presentations,  
       please cite the following publications and acknowledge Dr. Peter Stockinger for providing access to this web app.
-    </p>
-    <p class="mb-0.5 text-sm">
-      Mirdita et al. (2022). <em>ColabFold: Making protein folding accessible to all</em>. 
+
+
+      Mirdita et al. (2022) ColabFold: Making protein folding accessible to all.
       <a href="https://www.nature.com/articles/s41592-022-01488-1" target="_blank" class="text-indigo-500 hover:text-indigo-600 underline">Nature Methods</a>.
-    </p>
-    <p class="mb-0.5 text-sm">
-      Wohlwend et al. (2024). <em>Boltz-1: Democratizing biomolecular interaction modeling</em>. 
-      <a href="https://doi.org/10.1101/2024.11.19.624167" target="_blank" class="text-indigo-500 hover:text-indigo-600 underline">bioRxiv</a>.
-    </p>
-    <p class="mb-0.5 text-sm">
-      Passaro et al. (2025). <em>Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction</em>. 
-      <a href="Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction" target="_blank" class="text-indigo-500 hover:text-indigo-600 underline">bioRxiv</a>.
-    </p>    
----
+
+
+      Wohlwend et al. (2024). Boltz-1: Democratizing biomolecular interaction modeling. 
+      https://doi.org/10.1101/2024.11.19.624167
+
+      Passaro et al. (2025) <em>Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction 
+      Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction
 
 ### ✨ Author
 **Peter Stockinger**  
