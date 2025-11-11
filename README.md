@@ -266,11 +266,20 @@ Feel free to modify and adapt it for your own workflow.
 
 If you use complexes generated with this tool for publications, posters, or presentations, please cite the following publications and acknowledge Dr. Peter Stockinger for providing access to this web app.
 
-Mirdita et al. (2022) ColabFold: Making protein folding accessible to all (https://www.nature.com/articles/s41592-022-01488-1)
- 
-Wohlwend et al. (2024). Boltz-1: Democratizing biomolecular interaction modeling (https://doi.org/10.1101/2024.11.19.624167)
+Mirdita et al. (2022) ColabFold: Making protein folding accessible to all 
 
-Passaro et al. (2025) Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction (https://www.biorxiv.org/content/10.1101/2025.06.14.659707v1)
+
+(https://www.nature.com/articles/s41592-022-01488-1)
+ 
+Wohlwend et al. (2024). Boltz-1: Democratizing biomolecular interaction modeling 
+
+
+(https://doi.org/10.1101/2024.11.19.624167)
+
+Passaro et al. (2025) Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction 
+
+
+(https://www.biorxiv.org/content/10.1101/2025.06.14.659707v1)
 
 ### ✨ Author
 **Peter Stockinger**  
