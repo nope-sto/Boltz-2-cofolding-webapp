@@ -1,161 +1,278 @@
-# ⚛️ Boltz (v2.2.0) Webapp
+# 🧬 Boltz (v2.2.0) Webapp – Flask Interface for Protein, DNA, RNA, and SMILES Prediction
 
-A modern web interface for **biomolecular complex prediction** — supporting **Protein**, **DNA**, **RNA**, and **Small Molecules (SMILES)**.
+A web-based Flask application for submitting biomolecular sequences (proteins, DNA, RNA, or SMILES), validating inputs, generating FASTA files, and running **Boltz** predictions with real-time status tracking and downloadable results.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Features
 
-Clone the repository:
+- ✅ Sequence validation for **protein, DNA, RNA, and SMILES** inputs  
+- ⚙️ Automatic FASTA file generation  
+- 🧠 Runs **Boltz** prediction via command line (`boltz predict`)  
+- 🧾 Real-time prediction status updates via Flask endpoints  
+- 💾 Download results as `.cif`, `.zip`, or `.log` files  
+- 🧩 Multi-sequence input support (chain A–Z)  
+- 🧠 Optional physical potential usage (`--use_potentials`)  
+- 🖥️ GPU detection and error handling for NVIDIA/CUDA setup  
+- 🔒 Thread-safe job queue and per-job logging  
+
+---
+
+## 🧱 Project Structure
+
+```
+project/
+│
+├── app.py                    # Main Flask web application
+├── templates/
+│   └── index.html            # Frontend template for sequence input
+├── inputs/                   # FASTA files generated from form input
+├── outputs/                  # Prediction output folders
+│   ├── output_<timestamp>/
+│   │   ├── boltz_job_<timestamp>.log
+│   │   └── boltz_results_input_<timestamp>/
+│   │       └── predictions/
+│   │           └── input_<timestamp>_model_0.cif
+└── requirements.txt          # Dependencies
+```
+
+---
+
+## ⚙️ Installation
+
+### 1️⃣ Clone the Repository
 
 ```bash
-git clone [https://github.com/nope-sto/Boltz-2-cofolding-webapp/](https://github.com/nope-sto/Boltz-2-cofolding-webapp.git)
+git clone https://github.com/yourusername/boltz-webapp.git
 cd boltz-webapp
 ```
 
-Install dependencies:
+### 2️⃣ Create a Virtual Environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate  # (Windows: venv\Scripts\activate)
+```
+
+### 3️⃣ Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the backend Flask server:
+Typical dependencies include:
+```text
+flask
+flask-cors
+```
+
+*(If you are missing Boltz, install it via your package manager or from source.)*
+
+---
+
+## 🧬 GPU Requirements
+
+This application requires GPU access for `boltz predict` to run efficiently.  
+To verify your setup:
+
+```bash
+nvidia-smi
+```
+
+If this fails, install NVIDIA drivers and CUDA toolkit.
+
+---
+
+## 🖥️ Running the WebApp
 
 ```bash
 python app.py
 ```
 
-Then open your browser and visit:
+The app will start at:
 
 ```
-http://127.0.0.1:5000
+http://0.0.0.0:8009
 ```
 
----
+or locally at:
 
-## 🧬 Frontend Overview
-
-The frontend is built using **HTML5**, **Tailwind CSS**, and **jQuery**.
-
-### Features
-
-- Dynamic form handling for primary and additional biomolecular inputs  
-- Live status updates during prediction runs  
-- Download links for CIF, ZIP, and Log files  
-- Clean responsive design with Tailwind styling  
-
-### Example Snippet
-
-```html
-<select name="primary_type" required class="w-full p-3 border border-gray-200 rounded-lg">
-  <option value="protein">Protein Sequence</option>
-  <option value="dna">DNA Sequence</option>
-  <option value="rna">RNA Sequence</option>
-  <option value="smiles">SMILES String</option>
-</select>
 ```
-
-You can dynamically add new input fields using:
-
-```javascript
-$('#add-input').click(function() {
-  const newInput = `
-    <div class="input-group flex flex-col md:flex-row md:items-start gap-3 mt-2">
-      <select name="input_type[]" class="w-full md:w-1/3 p-3 border border-gray-200 rounded-lg">
-        <option value="protein">Protein Sequence</option>
-        <option value="dna">DNA Sequence</option>
-        <option value="rna">RNA Sequence</option>
-        <option value="smiles">SMILES String</option>
-      </select>
-      <textarea name="additional_input[]" rows="3" class="w-full p-3 border border-gray-200 rounded-lg"></textarea>
-      <button type="button" class="remove-input bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Remove</button>
-    </div>`;
-  $('#additional-inputs').append(newInput);
-});
+http://localhost:8009
 ```
 
 ---
 
-## ⚙️ Backend API
+## 🌐 API Endpoints
 
-### `POST /submit`  
-Submits the user-provided sequences to the prediction engine.
+### `/`  
+**Method:** `GET`  
+Renders the input form (`index.html`).
 
-**Payload Example:**
+---
 
-```bash
-primary_type=protein
-primary_sequence=MGDVEKGKKIFIMKCSQCHTVEKGGKHKTGP
-additional_input[]=ATGCCTGAAGTGA
-input_type[]=dna
-use_physical_potentials=true
-```
+### `/submit`  
+**Method:** `POST`  
+Starts a new Boltz prediction job.
 
-**Response Example:**
+#### Form Parameters:
+| Parameter | Type | Description |
+|------------|------|-------------|
+| `primary_sequence` | `string` | Main biomolecule sequence |
+| `primary_type` | `string` | Type: `protein`, `dna`, `rna`, or `smiles` |
+| `use_physical_potentials` | `bool` | Optional checkbox |
+| `additional_input[]` | `string[]` | Additional sequences |
+| `input_type[]` | `string[]` | Matching types for each additional input |
+
+#### Example Response:
 ```json
 {
-  "timestamp": "20251111-153210",
-  "message": "Job submitted successfully."
+  "status": "Prediction started",
+  "timestamp": 1731339164
 }
 ```
 
 ---
 
-### `GET /status/<timestamp>`  
-Polls the server for prediction progress.
+### `/status/<timestamp>`  
+**Method:** `GET`  
+Returns prediction progress and messages from the internal status queue.
 
-**Response Example:**
+#### Example Response:
 ```json
 {
   "status": [
-    "Info: Starting prediction pipeline",
-    "Model running...",
-    "CIF file created successfully."
+    "Initializing prediction...",
+    "Running multiple sequence alignment (MSA)...",
+    "Running Boltz inference...",
+    "Prediction completed successfully!",
+    "download_ready:1731339164"
   ]
 }
 ```
 
 ---
 
-### `GET /download_zip/<timestamp>`  
-Downloads all generated output files as a ZIP archive.
+### `/download_cif/<timestamp>`  
+**Method:** `GET`  
+Downloads the `.cif` structure file produced by Boltz.
 
 ---
 
-## 🧠 Key UI Features
-
-- ✅ Add or remove multiple input types dynamically  
-- ✅ Use optional physical potentials toggle  
-- ✅ Real-time job status updates with auto-refresh every 2 seconds  
-- ✅ Download CIF, ZIP, and log files when jobs complete  
-- ✅ Error and info messages displayed inline with colors  
+### `/download_zip/<timestamp>`  
+**Method:** `GET`  
+Downloads all output files as a ZIP archive.
 
 ---
 
-## 🧩 Technologies Used
-
-| Layer | Technology |
-|-------|-------------|
-| Frontend | HTML5, Tailwind CSS, jQuery |
-| Backend | Flask (Python) |
-| Data Handling | JSON, AJAX |
-| Output | CIF, ZIP, Log Files |
+### `/download_log/<timestamp>`  
+**Method:** `GET`  
+Downloads the job-specific log file.
 
 ---
 
-## 📘 Citation & Acknowledgments
-
-If you use **Boltz Webapp** results for publications, please cite:
-
-- Mirdita *et al.* (2022). *ColabFold: Making protein folding accessible to all*. [Nature Methods](https://www.nature.com/articles/s41592-022-01488-1)  
-- Wohlwend *et al.* (2024). *Boltz‑1: Democratizing biomolecular interaction modeling*. [bioRxiv](https://doi.org/10.1101/2024.11.19.624167)  
-- Passaro *et al.* (2025). *Boltz‑2: Towards Accurate and Efficient Binding Affinity Prediction*. [bioRxiv](https://doi.org/10.1101/2025.03.12.624167)
+### `/structures/<timestamp>.cif`  
+**Method:** `GET`  
+Serves `.cif` file directly for browser visualization.
 
 ---
 
-## 🧑‍💻 Author
+## 🧩 Sequence Validation Rules
 
-**Dr. Peter Stockinger**  
-LinkedIn: [linkedin.com/in/peter-stockinger](https://www.linkedin.com/in/peter-stockinger/)  
+| Entity Type | Valid Characters |
+|--------------|------------------|
+| **Protein** | `A C D E F G H I K L M N P Q R S T V W Y` |
+| **DNA** | `A T C G` |
+| **RNA** | `A U C G` |
+| **SMILES** | `C N O H S P F e Z n Ca Mg cnospi@[]\/()+-=#%:1234567890l` |
 
-© 2025 Boltz Webapp  
+Invalid inputs are rejected with detailed error messages in the JSON response.
+
+---
+
+## 🧾 Logging
+
+All logs are timestamped and stored in:
+```
+outputs/output_<timestamp>/boltz_job_<timestamp>.log
+```
+
+The main app log:
+```
+boltz_app.log
+```
+
+---
+
+## 🧠 Example Workflow
+
+1. Launch the app: `python app.py`  
+2. Open the web interface in your browser  
+3. Paste your primary protein/DNA/RNA/SMILES sequence  
+4. (Optional) Add more sequences  
+5. Click **Submit**  
+6. Monitor progress via `/status/<timestamp>`  
+7. Download results (`CIF`, `ZIP`, `LOG`) when ready  
+
+---
+
+## 🧩 Example Command (Internal)
+
+The backend executes something similar to:
+```bash
+boltz predict input_1731339164.fasta --use_msa_server --out_dir outputs/output_1731339164
+```
+If the user checked *"Use physical potentials"*, the flag `--use_potentials` is appended.
+
+---
+
+## 🛡️ Error Handling
+
+- GPU check failure → `Error: No GPU access detected. Ensure NVIDIA drivers and CUDA are installed.`
+- Invalid characters → Descriptive validation error  
+- Missing output/CIF/log → HTTP 404 with message  
+- Subprocess timeout → `Error: Boltz process timed out`  
+
+---
+
+## 🔐 CORS Support
+
+Cross-Origin Resource Sharing (CORS) is enabled via:
+```python
+from flask_cors import CORS
+CORS(app)
+```
+
+This allows secure AJAX polling of job statuses from other domains.
+
+---
+
+## 🧑‍💻 Development Notes
+
+- Written in **Python 3.8+**
+- Uses **threading** for background prediction jobs
+- Loggers are dynamically created per job
+- Safe for concurrent predictions
+- Suitable for deployment with **Gunicorn** or **uWSGI**
+
+---
+
+## 📜 License
+
+This project is distributed under the MIT License.  
+Feel free to modify and adapt it for your own workflow.
+
+---
+
+## 🧠 Citation
+
+If you use this webapp or Boltz predictions in your research, please cite the **Boltz** framework as described in its official documentation.
+
+---
+
+### ✨ Author
+**Your Name**  
+*Bioinformatics Developer • Flask Enthusiast*
+
+📧 Contact: your.email@example.com  
+🌐 GitHub: [@yourusername](https://github.com/yourusername)
