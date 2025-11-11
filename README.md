@@ -9,7 +9,7 @@ A modern web interface for **biomolecular complex prediction** — supporting **
 Clone the repository:
 
 ```bash
-git clone https://github.com/nope-sto/Boltz-2-cofolding-webapp/
+git clone [https://github.com/nope-sto/Boltz-2-cofolding-webapp/](https://github.com/nope-sto/Boltz-2-cofolding-webapp.git)
 cd boltz-webapp
 ```
 
