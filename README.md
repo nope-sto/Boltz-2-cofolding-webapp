@@ -33,7 +33,7 @@ project/
 │   │   └── boltz_results_input_<timestamp>/
 │   │       └── predictions/
 │   │           └── input_<timestamp>_model_0.cif
-└── requirements.txt          # Dependencies
+
 ```
 
 ---
@@ -47,26 +47,16 @@ git clone https://github.com/yourusername/boltz-webapp.git
 cd boltz-webapp
 ```
 
-### 2️⃣ Create a Virtual Environment
+### 2️⃣ Create a Virtual Conda Environment
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # (Windows: venv\Scripts\activate)
+conda create - n boltz-webapp
+conda activate boltz-webapp
 ```
 
 ### 3️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Typical dependencies include:
-```text
-flask
-flask-cors
-```
-
-*(If you are missing Boltz, install it via your package manager or from source.)*
+Start by installing the desired version of Boltz-2 according to their GitHub description (https://github.com/jwohlwend/boltz).
+Afterwards install remaining dependencies if needed.
 
 ---
 
@@ -83,7 +73,15 @@ If this fails, install NVIDIA drivers and CUDA toolkit.
 
 ---
 
-## 🖥️ Running the WebApp
+## 🖥️ Running the WebApp (preferably in a screen session)
+
+```bash
+screen -S boltz-webapp-screen
+```
+
+```bash
+conda activate boltz-webapp
+```
 
 ```bash
 python app.py
@@ -266,13 +264,24 @@ Feel free to modify and adapt it for your own workflow.
 
 ## 🧠 Citation
 
-If you use this webapp or Boltz predictions in your research, please cite the **Boltz** framework as described in its official documentation.
-
+    <p class="mb-1">
+      If you use complexes generated with this tool for publications, posters, or presentations,  
+      please cite the following publications and acknowledge Dr. Peter Stockinger for providing access to this web app.
+    </p>
+    <p class="mb-0.5 text-sm">
+      Mirdita et al. (2022). <em>ColabFold: Making protein folding accessible to all</em>. 
+      <a href="https://www.nature.com/articles/s41592-022-01488-1" target="_blank" class="text-indigo-500 hover:text-indigo-600 underline">Nature Methods</a>.
+    </p>
+    <p class="mb-0.5 text-sm">
+      Wohlwend et al. (2024). <em>Boltz-1: Democratizing biomolecular interaction modeling</em>. 
+      <a href="https://doi.org/10.1101/2024.11.19.624167" target="_blank" class="text-indigo-500 hover:text-indigo-600 underline">bioRxiv</a>.
+    </p>
+    <p class="mb-0.5 text-sm">
+      Passaro et al. (2025). <em>Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction</em>. 
+      <a href="Boltz-2: Towards Accurate and Efficient Binding Affinity Prediction" target="_blank" class="text-indigo-500 hover:text-indigo-600 underline">bioRxiv</a>.
+    </p>    
 ---
 
 ### ✨ Author
-**Your Name**  
-*Bioinformatics Developer • Flask Enthusiast*
-
-📧 Contact: your.email@example.com  
-🌐 GitHub: [@yourusername](https://github.com/yourusername)
+**Peter Stockinger**  
+🌐 LinkedIn: https://www.linkedin.com/in/peter-stockinger/
