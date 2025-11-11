@@ -50,7 +50,7 @@ cd boltz-webapp
 ### 2️⃣ Create a Virtual Conda Environment
 
 ```bash
-conda create - n boltz-webapp
+conda create -n boltz-webapp
 conda activate boltz-webapp
 ```
 
